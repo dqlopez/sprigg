@@ -23,6 +23,18 @@ var characters = []string{
 	"Zappa", "Lucca", "Norris", "Grobyc",
 }
 
+// List of game-related terms to add variety to searches
+var gameTerms = []string{
+	"element", "tech", "summon", "sword", "dragon", "island",
+	"village", "temple", "dungeon", "boss", "weapon", "armor",
+	"accessory", "item", "magic", "spell", "ability", "skill",
+	"quest", "story", "ending", "character", "party", "ally",
+	"enemy", "villain", "hero", "heroine", "world", "map",
+	"puzzle", "battle", "combat", "strategy", "guide", "walkthrough",
+	"artwork", "music", "soundtrack", "remaster", "remake", "sequel",
+	"easter egg", "secret", "hidden", "unlockable", "achievement", "trophy",
+}
+
 func checkMacOSPermissions() {
 	// Check if Terminal has accessibility permissions
 	cmd := exec.Command("osascript", "-e", `
@@ -84,9 +96,10 @@ func main() {
 
 	// Perform the specified number of searches
 	for i := 0; i < *count; i++ {
-		// Select a random character
+		// Select a random character and game term
 		character := characters[rand.Intn(len(characters))]
-		searchQuery := "Chrono Cross " + character
+		term := gameTerms[rand.Intn(len(gameTerms))]
+		searchQuery := fmt.Sprintf("Chrono Cross %s %s", character, term)
 
 		fmt.Printf("Searching for: %s (%d/%d)\n", character, i+1, *count)
 
@@ -96,7 +109,7 @@ func main() {
 			activate
 		end tell
 
-		delay 2 -- Wait for Edge to activate
+		delay 1 -- Wait for Edge to activate (reduced from 2s)
 
 		tell application "System Events"
 			-- Make sure we're on the frontmost application
@@ -108,11 +121,11 @@ func main() {
 
 			-- Focus the address bar using Cmd+L
 			key code 37 using command down
-			delay 0.5
+			delay 0.25 -- Reduced from 0.5s
 
 			-- Type the search query directly in the address bar
 			keystroke "%s"
-			delay 0.5
+			delay 0.25 -- Reduced from 0.5s
 
 			-- Press Enter to search
 			key code 36
@@ -132,9 +145,9 @@ func main() {
 			}
 		}
 
-		// Wait between searches (5 seconds + random 1-3 seconds)
+		// Wait between searches (3 seconds + random 1-2 seconds)
 		if i < *count-1 {
-			waitTime := 5 + time.Duration(rand.Intn(3))
+			waitTime := 3 + time.Duration(rand.Intn(2))
 			time.Sleep(waitTime * time.Second)
 		}
 	}
@@ -160,6 +173,6 @@ func openEdge() {
 		fmt.Printf("Error opening Microsoft Edge: %v\n", err)
 	}
 	
-	// Give the browser time to open
-	time.Sleep(3 * time.Second)
+	// Give the browser time to open (reduced from 3s)
+	time.Sleep(1500 * time.Millisecond)
 }
