@@ -1,6 +1,6 @@
-# Sprigg - Chrono Cross Search Automator
+# Sprigg - Microsoft Rewards Automation Tool
 
-A command-line utility written in Go that automates Bing searches for random Chrono Cross characters using Microsoft Edge. Perfect for earning Microsoft Rewards points.
+A command-line utility that automates Microsoft Rewards points by performing varied Bing searches with Chrono Cross characters. Optimized for Microsoft Edge to ensure maximum compatibility with Microsoft Rewards program.
 
 ## Features
 
